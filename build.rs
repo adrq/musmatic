@@ -6,13 +6,14 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 fn main() {
+    let verovio_build_dir = "vendor/verovio/tools";
     //run bash script to get/update Verovio sources if needed
     Command::new("bash")
         .arg("get-dep.sh")
         .status()
         .expect("Unable to update verovio sources");
 
-    let verovio_build_dir = "vendor/verovio/tools";
+    
 
     //Run cmake and the make to build Verovio
     let mut cmake_cmd = Command::new("cmake");
@@ -30,7 +31,7 @@ make_cmd
         .arg(num_jobs) //enable multithreaded build
         .status()
         .expect("Error executing make");
-
+ 
 
 /*    Command::new("make")
         .arg(num_jobs)
