@@ -9,6 +9,7 @@ use std::ffi::CStr;
 use std::os::raw::c_char;
 use serde::{Deserialize, Serialize};
 use serde_json::{Result, Value};
+use std::collections::HashMap;
 
 use std::path::PathBuf;
 
@@ -33,6 +34,11 @@ use actix_web::{
 #[derive(Debug, Serialize, Deserialize)]
 struct Request {
     data: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct VerovioOptions {
+    options: HashMap<String,String>
 }
 
 fn main(){
@@ -63,13 +69,22 @@ fn main(){
 fn getsvg(req: web::Json<Request>) -> HttpResponse {
     //println!("model: {:?}", &req);
     println!("getsvg");
-
+    //json("{}");
     let mut res_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     res_path.push("vendor/verovio/data");
     let vrv_ptr: *mut std::ffi::c_void;
     let mut vrv_options = String::new();
     let (vrv_ptr, vrv_options) = new_instance(res_path.to_str().unwrap().to_string());
-    let options = CString::new("{}").expect("render_mei_data unable to create CString");
+
+    let mut options = VerovioOptions{
+        options: HashMap::new()
+    };
+    options.options.insert("noFooter".to_string(),"true".to_string());
+    let json_options = serde_json::to_string(&options.options).expect("fail");
+
+    let options_str = CString::new(json_options).expect("render_mei_data unable to create CString");
+    let options_ptr = options_str.as_ptr();
+    std::mem::forget(options_str);
     let mei_data_clone = req.data.clone();
     //println!("mei data clone{}",mei_data_clone);
     let mei_data = CString::new(mei_data_clone).expect("fail");
@@ -78,7 +93,7 @@ fn getsvg(req: web::Json<Request>) -> HttpResponse {
     //println!("mei data ptr{:?}",mei_data_ptr);
       
     //unsafe {println!("meidata{}",CStr::from_ptr(mei_data_ptr).to_str().unwrap())};
-    let svg_data_ptr = unsafe {vrvToolkit_renderData(vrv_ptr,mei_data_ptr,options.as_ptr())};
+    let svg_data_ptr = unsafe {vrvToolkit_renderData(vrv_ptr,mei_data_ptr,options_ptr)};
     //println!("svg data ptr{:?}",svg_data_ptr);
     let svg_data_cstr = unsafe {CStr::from_ptr(svg_data_ptr)};
     //println!("svg data str{}",svg_data_cstr.to_str().unwrap());

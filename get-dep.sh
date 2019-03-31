@@ -27,6 +27,3 @@ cd tools
 
 #fix CMake recipe to make a static library instead of shared
 sed -i -e 's/SHARED/STATIC/g' CMakeLists.txt
-
-#add typedef to top of header file to avoid compilation errors
-sed -i '1s/^/typedef void Toolkit;\n/' c_wrapper.h

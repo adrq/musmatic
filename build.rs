@@ -21,7 +21,7 @@ fn main() {
 
     
 
-    //Run cmake and the make to build Verovio
+    //Run cmake and then make to build Verovio
     let mut cmake_cmd = Command::new("cmake");
     cmake_cmd
         .current_dir(verovio_build_dir)
