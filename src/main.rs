@@ -80,6 +80,8 @@ fn getsvg(req: web::Json<Request>) -> HttpResponse {
         options: HashMap::new()
     };
     options.options.insert("noFooter".to_string(),"true".to_string());
+    options.options.insert("adjustPageHeight".to_string(),"true".to_string());
+    options.options.insert("breaks".to_string(),"none".to_string());
     let json_options = serde_json::to_string(&options.options).expect("fail");
 
     let options_str = CString::new(json_options).expect("render_mei_data unable to create CString");
