@@ -84,5 +84,11 @@ make_cmd
         .write_to_file(out_path.join("verovio_bindings.rs"))
         .expect("Couldn't write bindings!");
 
+    let mut cp_cmd = Command::new("cp");
+    cp_cmd
+        .arg(out_path.join("verovio_bindings.rs"))
+        .arg("src/verovio_bindings.rs")
+        .status()
+        .expect("Error copying verovio bindings");
 
 }

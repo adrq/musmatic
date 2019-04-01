@@ -14,7 +14,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 
-include!(concat!(env!("OUT_DIR"), "/verovio_bindings.rs"));
+include!("verovio_bindings.rs");
 
 
 fn new_instance(resource_path: String) -> (*mut std::ffi::c_void, String) {
@@ -70,7 +70,7 @@ fn getsvg(req: web::Json<Request>) -> HttpResponse {
     //println!("model: {:?}", &req);
     println!("getsvg");
     //json("{}");
-    let mut res_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let mut res_path = PathBuf::from("../../");
     res_path.push("vendor/verovio/data");
     let vrv_ptr: *mut std::ffi::c_void;
     let mut vrv_options = String::new();
