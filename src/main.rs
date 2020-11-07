@@ -52,15 +52,15 @@ fn main(){
                     .allowed_header(header::CONTENT_TYPE)
                     .max_age(3600),
             )
-            /*.wrap(middleware::DefaultHeaders::new()
+            .wrap(middleware::DefaultHeaders::new()
                     .header("Access-Control-Allow-Origin", "*")
                     .header("Access-Control-Allow-Methods","GET, POST, PATCH, PUT, DELETE, OPTIONS")
                     .header("Access-Control-Allow-Headers","Origin, Content-Type, X-Auth-Token")
-                )*/
+                )
             .service(web::resource("/getsvg").route(web::post().to(getsvg)))
             
     })
-    .bind("127.0.0.1:8080")
+    .bind("10.0.0.7:8080")
     .unwrap()
 .run();
 }
@@ -80,8 +80,10 @@ fn getsvg(req: web::Json<Request>) -> HttpResponse {
         options: HashMap::new()
     };
     options.options.insert("noFooter".to_string(),"true".to_string());
+    options.options.insert("noHeader".to_string(),"true".to_string());
     options.options.insert("adjustPageHeight".to_string(),"true".to_string());
     options.options.insert("breaks".to_string(),"none".to_string());
+    options.options.insert("svgViewBox".to_string(),"true".to_string());
     let json_options = serde_json::to_string(&options.options).expect("fail");
 
     let options_str = CString::new(json_options).expect("render_mei_data unable to create CString");
