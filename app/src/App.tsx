@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
+import { Box } from '@chakra-ui/core';
 import './App.css';
 
 function App() {
   return (
-    <div className="container">
-      container
-    </div>
+    <Box bg="darkgray" w="100%" height="100%" p={4} color="white">
+      App container
+    </Box>
   );
 }
 

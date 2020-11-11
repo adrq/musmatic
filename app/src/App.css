@@ -4,3 +4,6 @@
  *
  * Copyright (c) 2019-2020 - Musmatic authors
  */
+body > #root > div {
+  height: 100vh;
+}
