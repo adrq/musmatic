@@ -7,16 +7,14 @@
 
 import React from 'react';
 import { Box } from '@chakra-ui/core';
-import './App.scss';
-import ScoreViewer from './components/ScoreViewer/ScoreViewer';
+import './ScoreViewer.scss';
 
-function App() {
+function ScoreViewer() {
   return (
-    <Box bg="darkgray" w="100%" height="100%" p={4} color="white">
-      App container
-      <ScoreViewer />
+    <Box bg="lightgray" w="100%" height="100%" p={4} color="white">
+      ScoreViewer
     </Box>
   );
 }
 
-export default App;
+export default ScoreViewer;
