@@ -10,6 +10,6 @@ import ScoreViewer from './ScoreViewer';
 
 test('renders containerToast', () => {
   render(<ScoreViewer />);
-  const containerToast = screen.getByText(/ScoreViewer/i);
-  expect(containerToast).toBeInTheDocument();
+  const noteCinSVG = screen.getAllByText(/C/i);
+  expect(noteCinSVG[0]).toBeInTheDocument();
 });
