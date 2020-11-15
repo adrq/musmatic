@@ -7,21 +7,40 @@
 
 import { IconButton } from '@chakra-ui/core';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import getElementWidth from '../../utils';
 // import { Box } from '@chakra-ui/core';
 
 function ScoreViewer() {
   const [svgWidth, setSvgWidth] = useState(100);
+  const ref = useRef(null);
   function zoomIn() {
-    console.log('zoomIn');
     const newSvgWidth = svgWidth + 100;
+    console.log(`zoomIn ${svgWidth} -> ${newSvgWidth}`);
     setSvgWidth(newSvgWidth);
   }
   function zoomOut() {
-    console.log('zoomOut');
+    const newSvgWidth = svgWidth - 100;
+    console.log(`zoomOut ${svgWidth} -> ${newSvgWidth}`);
+    setSvgWidth(newSvgWidth);
   }
+
+  // run once after first render to set initial svg width
+  useEffect(() => {
+    const initialWidth = getElementWidth(ref.current);
+    console.log('width?', initialWidth);
+    setSvgWidth(initialWidth - 100);
+  }, []);
+
+  useEffect(() => {
+    function handleResize() {
+      console.log('resized to: ', window.innerWidth, 'x', window.innerHeight);
+    }
+
+    window.addEventListener('resize', handleResize);
+  });
   return (
-    <div>
+    <div ref={ref}>
       <svg viewBox="0 0 84 40" xmlns="http://www.w3.org/2000/svg" style={{ width: svgWidth }}>
         <polygon data-note="0" className="ivory" points="0,0 7,0 7,20 12,20 12,40 0,40" style={{ fill: 'ivory', stroke: 'black' }} />
         <polygon data-note="1" points="7,0 14,0 14,20 7,20" style={{ fill: 'black', stroke: 'black' }} />

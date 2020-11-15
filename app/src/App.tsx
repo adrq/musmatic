@@ -5,14 +5,15 @@
  * Copyright (c) 2019-2020 - Musmatic authors
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box } from '@chakra-ui/core';
 import './App.scss';
 import ScoreViewer from './components/ScoreViewer/ScoreViewer';
 
 function App() {
+  const parentEl = useRef(null);
   return (
-    <Box bg="darkgray" w="100%" height="100%" p={4} color="white">
+    <Box bg="darkgray" w="100%" height="100%" p={4} color="white" ref={parentEl}>
       App container
       <ScoreViewer />
     </Box>
