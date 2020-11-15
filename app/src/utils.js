@@ -5,6 +5,10 @@
  * Copyright (c) 2019-2020 - Musmatic authors
  */
 
-export default function getElementWidth(el) {
+export function getElementWidth(el) {
   return el ? el.offsetWidth : 0;
+}
+
+export function getElementHeight(el) {
+  return el ? el.offsetHeight : 0;
 }
