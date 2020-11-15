@@ -5,13 +5,24 @@
  * Copyright (c) 2019-2020 - Musmatic authors
  */
 
-import React from 'react';
+import { IconButton } from '@chakra-ui/core';
+import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
+import React, { useState } from 'react';
 // import { Box } from '@chakra-ui/core';
 
 function ScoreViewer() {
+  const [svgWidth, setSvgWidth] = useState(100);
+  function zoomIn() {
+    console.log('zoomIn');
+    const newSvgWidth = svgWidth + 100;
+    setSvgWidth(newSvgWidth);
+  }
+  function zoomOut() {
+    console.log('zoomOut');
+  }
   return (
     <div>
-      <svg viewBox="0 0 84 40" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 84 40" xmlns="http://www.w3.org/2000/svg" style={{ width: svgWidth }}>
         <polygon data-note="0" className="ivory" points="0,0 7,0 7,20 12,20 12,40 0,40" style={{ fill: 'ivory', stroke: 'black' }} />
         <polygon data-note="1" points="7,0 14,0 14,20 7,20" style={{ fill: 'black', stroke: 'black' }} />
         <polygon data-note="2" className="ivory" points="14,0 21,0 21,20 24,20 24,40 12,40 12,20 14,20" style={{ fill: 'ivory', stroke: 'black' }} />
@@ -26,6 +37,8 @@ function ScoreViewer() {
         <polygon data-note="11" className="ivory" points="77,0 84,0 84,40 72,40 72,20 77,20" style={{ fill: 'ivory', stroke: 'black' }} />
         <text x="2" y="37" fontFamily="sans-serif" fontWeight="bold" fontSize="6px" fill="blue">C</text>
       </svg>
+      <IconButton aria-label="Zoom in" colorScheme="darkgray" size="lg" onClick={() => zoomIn()} icon={<AiOutlineZoomIn />} />
+      <IconButton aria-label="Zoom out" colorScheme="darkgray" size="lg" onClick={() => zoomOut()} icon={<AiOutlineZoomOut />} />
     </div>
   );
 }
