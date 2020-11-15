@@ -35,6 +35,8 @@ function ScoreViewer() {
   useEffect(() => {
     function handleResize() {
       console.log('resized to: ', window.innerWidth, 'x', window.innerHeight);
+      const updatedWidth = getElementWidth(ref.current);
+      setSvgWidth(updatedWidth - 100);
     }
 
     window.addEventListener('resize', handleResize);
