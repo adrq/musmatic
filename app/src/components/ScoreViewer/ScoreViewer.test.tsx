@@ -5,11 +5,26 @@
  * Copyright (c) 2019-2020 - Musmatic authors
  */
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import ScoreViewer from './ScoreViewer';
 
-test('renders containerToast', () => {
-  render(<ScoreViewer />);
-  const noteCinSVG = screen.getAllByText(/C/i);
-  expect(noteCinSVG[0]).toBeInTheDocument();
+test('renders ScoreViewer', () => {
+    render(<ScoreViewer />);
+    const noteCinSVG = screen.getAllByText(/C/i);
+    expect(noteCinSVG[0]).toBeInTheDocument();
+    const [zoomInBtn, zoomOutBtn] = screen.getAllByRole('button');
+    expect(zoomInBtn).toHaveAttribute('aria-label', 'Zoom in');
+    expect(zoomOutBtn).toHaveAttribute('aria-label', 'Zoom out');
 });
+
+/*
+test('resize ScoreViewer', () => {
+    render(<ScoreViewer />);
+
+    const noteCinSVG = screen.getAllByText(/C/i);
+    expect(noteCinSVG[0]).toBeInTheDocument();
+    act(() => {
+        global.innerWidth = 500;
+        global.dispatchEvent(new Event('resize'));
+    });
+});*/
