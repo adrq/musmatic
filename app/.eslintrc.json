@@ -25,6 +25,7 @@
     ],
     "rules": {
         "no-use-before-define": "off",
+        "new-cap": "off",
         "no-console": "off",
         "@typescript-eslint/no-use-before-define": ["error"],
         "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
