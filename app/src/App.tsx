@@ -9,6 +9,7 @@ import React, { useRef, useEffect } from 'react';
 import { Flex } from '@chakra-ui/core';
 import './App.scss';
 import ScoreViewer from './components/ScoreViewer/ScoreViewer';
+import Toolbar from './components/Toolbar/Toolbar';
 
 declare const window: any;
 
@@ -27,6 +28,7 @@ function App() {
     <Flex bg="darkgray" direction="column" color="white" ref={parentEl}>
       App container
       <ScoreViewer />
+      <Toolbar />
     </Flex>
   );
 }
