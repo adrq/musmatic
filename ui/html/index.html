@@ -1,0 +1,112 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/. 
+  
+   - Copyright (c) 2019 - Musmatic authors
+  -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+
+    <title>Musmatic</title>
+  </head>
+  <body>
+    
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Musmatic</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+       
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  File
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#" data-target="#new-document-modal" data-toggle="modal">New</a>
+                  <a class="dropdown-item" href="#">Open</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Save</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Edit</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="" id="score-container">
+          
+        </div>
+      </div>
+      <div id="zoom-controls">
+        <button class="btn btn-default" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+        <button class="btn btn-default" id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>   
+      </div>
+      <div class="row" id="input-controls">
+        <div class="col-md-12 col-lg-5">
+          <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="tab1" data-toggle="tab" href="#note-entry-tab" role="tab" aria-controls="note-entry-tab" aria-selected="true">Note entry</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="tab2" data-toggle="tab" href="#midi-player-tab" role="tab" aria-controls="midi-player-tab" aria-selected="false">Midi player</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="tab3" data-toggle="tab" href="#mei-tab" role="tab" aria-controls="mei-tab" aria-selected="false">MEI</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="note-entry-tab" role="tabpanel" aria-labelledby="home-tab">
+                <button type="button" data-duration="1" class="btn btn-outline-dark btn-sm bravura-font active">&#x1d15d;</button>
+                <button type="button" data-duration="2"class="btn btn-outline-dark btn-sm bravura-font">&#x1d15e;</button>
+                <button type="button" data-duration="4"class="btn btn-outline-dark btn-sm bravura-font">&#x1d15f;</button>
+                <button type="button" data-duration="8"class="btn btn-outline-dark btn-sm bravura-font">&#x1d160;</button>
+                <button type="button" data-duration="16"class="btn btn-outline-dark btn-sm bravura-font">&#x1d161;</button>
+
+            </div>
+            <div class="tab-pane fade" id="midi-player-tab" role="tabpanel" aria-labelledby="profile-tab">MIDI</div>           
+            <div class="tab-pane fade" id="mei-tab" role="tabpanel" aria-labelledby="contact-tab"><pre id="mei-tab-pre"></pre></div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-7">
+          <div id="piano-container" class="show-piano"><!--
+            <div class="octave" data-octave="1"></div>
+            <div class="octave" data-octave="2"></div>
+            --><div class="octave" data-octave="3"></div><!--
+            --><div class="octave" data-octave="4"></div><!--
+            <div class="octave" data-octave="5"></div>
+            <div class="octave" data-octave="6"></div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-container"></div>
+
+    <!-- scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="config.js"></script>
+    <script src='musmatic/musmatic_ui.js'></script>
+    <script type="module" src="musmatic/musmatic.js">
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+/target
+/pkg
+**/*.rs.bk
+/html/musmatic/musmatic_ui.js
+/html/musmatic/musmatic_ui_bg.wasm
+Cargo.lock
+/html/config.js
