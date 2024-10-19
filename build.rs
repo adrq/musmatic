@@ -12,7 +12,8 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 fn main() {
-    let verovio_build_dir = "vendor/verovio/tools";
+    let verovio_build_dir = "vendor/verovio/cmake";
+    let verovio_base_dir = "vendor/verovio/tools";
     //run bash script to get/update Verovio sources if needed
     Command::new("bash")
         .arg("get-dep.sh")
@@ -72,7 +73,7 @@ make_cmd
     let bindings = bindgen::Builder::default()
         // The input header we would like to generate
         // bindings for.
-        .header(verovio_build_dir.to_string()+&"/c_wrapper.h")
+        .header(verovio_base_dir.to_string()+&"/c_wrapper.h")
         // Finish the builder and generate the bindings.
         .generate()
         // Unwrap the Result and panic on failure.
