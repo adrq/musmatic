@@ -6,7 +6,7 @@
 
 There are different licenses that apply to different parts of this project.
 
-- Core: LGPG v3
+- Core: LGPL v3
 - UI Layer: MPL v2
 
 **Refer to inidividual source files/packages/modules for corresponding license details**
