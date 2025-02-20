@@ -1,9 +1,22 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/. 
+/*
+ * This file is part of Musmatic Core
+ *
+ * Musmatic Core is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Musmatic Core is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Musmatic Core. If not, see <https://www.gnu.org/licenses/>.
  * 
- * Copyright (c) 2019-2024 - Musmatic authors
+ * Copyright (c) 2019-2025 - Musmatic Core authors
  */
+
 use std::ffi::CString;
 use std::ffi::CStr;
 use std::io;
