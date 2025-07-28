@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Musmatic Core. If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright (c) 2019-2025 - Musmatic Core authors
  */
 
@@ -27,31 +27,51 @@ use std::process::Command;
 fn main() {
     let verovio_build_dir = "vendor/verovio/cmake";
     let verovio_base_dir = "vendor/verovio/tools";
-    //run bash script to get/update Verovio sources if needed
-    Command::new("bash")
-        .arg("get-dep.sh")
-        .status()
-        .expect("Unable to update verovio sources");
+    let verovio_lib_path = Path::new(verovio_build_dir).join("libverovio.a");
 
-    
+    // Check if we should force rebuild
+    let force_rebuild = env::var("VEROVIO_FORCE_REBUILD").is_ok();
 
-    //Run cmake and then make to build Verovio
-    let mut cmake_cmd = Command::new("cmake");
-    cmake_cmd
-        .current_dir(verovio_build_dir)
-        .arg("-DBUILD_AS_LIBRARY=ON")
-        .arg(".")
-        .status()
-        .expect("Error executing cmake");
+    // Check if Verovio is already built
+    let need_build = force_rebuild || !verovio_lib_path.exists();
 
-    let mut make_cmd = Command::new("make");
-    let num_jobs = "-j".to_string() + &env::var("NUM_JOBS").unwrap();
-make_cmd
-        .current_dir(verovio_build_dir)
-        .arg(num_jobs) //enable multithreaded build
-        .status()
-        .expect("Error executing make");
- 
+    if need_build {
+        println!("cargo:warning=Building Verovio...");
+
+        //run bash script to get/update Verovio sources if needed
+        Command::new("bash")
+            .arg("get-dep.sh")
+            .status()
+            .expect("Unable to update verovio sources");
+
+        //Run cmake and then make to build Verovio
+        let mut cmake_cmd = Command::new("cmake");
+        cmake_cmd
+            .current_dir(verovio_build_dir)
+            .arg("-DBUILD_AS_LIBRARY=ON")
+            .arg(".");
+
+        if force_rebuild {
+            cmake_cmd.arg("--fresh");  // CMake flag to force clean rebuild
+        }
+
+        cmake_cmd.status().expect("Error executing cmake");
+
+        let num_jobs = env::var("NUM_JOBS").unwrap_or_else(|_| {
+            std::thread::available_parallelism()
+                .map(|p| p.get().to_string())
+                .unwrap_or_else(|_| "4".to_string())
+        });
+
+        Command::new("make")
+            .current_dir(verovio_build_dir)
+            .arg(format!("-j{}", num_jobs))
+            .status()
+            .expect("Error executing make");
+    } else {
+        println!("cargo:warning=Verovio already built, skipping build");
+    }
+
 
 /*    Command::new("make")
         .arg(num_jobs)
@@ -81,7 +101,7 @@ make_cmd
         .arg("fix-c-wrapper.sh")
         .status()
         .expect("Error executing sed");
-    
+
 
     let bindings = bindgen::Builder::default()
         // The input header we would like to generate

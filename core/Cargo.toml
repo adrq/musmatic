@@ -2,10 +2,15 @@
 name = "musmatic"
 version = "0.1.0"
 authors = ["adrq"]
-edition = "2018"
+edition = "2021"
 
-#[lib]
-#crate-type = ["dylib"]
+[lib]
+name = "musmatic"
+crate-type = ["rlib"]
+
+[[bin]]
+name = "musmatic-cli"
+path = "src/main.rs"
 
 [dependencies]
 serde_json = "^1.*"
