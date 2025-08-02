@@ -1,0 +1,115 @@
+name: Core Library CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: Test Suite
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [stable, 1.70.0]  # stable and MSRV for Rust 2021
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: ${{ matrix.rust }}
+        components: rustfmt, clippy
+
+    - name: Cache Cargo registry
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+        key: cargo-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          cargo-${{ runner.os }}-
+
+    - name: Cache Rust compilation artifacts
+      uses: actions/cache@v4
+      with:
+        path: |
+          core/target/
+        key: target-${{ runner.os }}-${{ matrix.rust }}-${{ hashFiles('core/Cargo.lock') }}
+        restore-keys: |
+          target-${{ runner.os }}-${{ matrix.rust }}-
+          target-${{ runner.os }}-
+
+    - name: Cache Verovio build artifacts
+      uses: actions/cache@v4
+      with:
+        path: |
+          core/vendor/verovio/cmake/libverovio.a
+          core/vendor/verovio/cmake/CMakeFiles/
+          core/vendor/verovio/cmake/CMakeCache.txt
+          core/vendor/verovio/cmake/Makefile
+        key: verovio-${{ runner.os }}-${{ hashFiles('core/get-dep.sh', 'core/vendor/verovio/cmake/CMakeLists.txt') }}
+        restore-keys: |
+          verovio-${{ runner.os }}-
+
+    - name: Install system dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake libclang-dev
+
+    - name: Install system dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install cmake
+
+    - name: Install system dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install cmake
+        echo "LIBCLANG_PATH=$((gcm clang).source -replace "clang.exe")" >> $env:GITHUB_ENV
+
+    - name: Build core library
+      working-directory: core
+      run: |
+        cargo build --lib --verbose
+
+    - name: Build CLI binary
+      working-directory: core
+      run: |
+        cargo build --bin musmatic-cli --verbose
+
+    - name: Run tests
+      working-directory: core
+      run: |
+        cargo test --verbose
+
+    - name: Check code formatting
+      if: matrix.rust == 'stable'
+      working-directory: core
+      run: |
+        cargo fmt --all -- --check
+
+    - name: Run clippy
+      if: matrix.rust == 'stable'
+      working-directory: core
+      run: |
+        cargo clippy --all-targets --all-features -- -D warnings
+
+    - name: Generate documentation
+      if: matrix.rust == 'stable' && matrix.os == 'ubuntu-latest'
+      working-directory: core
+      run: |
+        cargo doc --no-deps --document-private-items

@@ -1,5 +1,3 @@
 target
 **/*.rs.bk
 vendor
-Cargo.lock
-src/verovio_bindings.rs
