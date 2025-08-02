@@ -2,9 +2,9 @@ name: Core Library CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 defaults:
@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        rust: [stable, 1.70.0]  # stable and MSRV for Rust 2021
+        rust: [stable, 1.80.0]  # stable and MSRV (updated for lock file v4)
 
     steps:
     - name: Checkout repository
